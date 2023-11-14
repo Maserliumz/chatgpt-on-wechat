@@ -1,3 +1,10 @@
-FROM ghcr.io/zhayujie/chatgpt-on-wechat:latest
+FROM alpine
+LABEL maintainer="huanghongwu <huanghongwu@sendbp.com>"
 
-ENTRYPOINT ["/entrypoint.sh"]
+COPY . /home/src
+
+ENV PATH="/home/src/docker/shell:${PATH}"
+
+WORKDIR /home/src
+
+CMD cp_r.sh /home/src /link-src

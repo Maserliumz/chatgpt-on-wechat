@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: baoxian-wechat-ingress
+  namespace: baoxian
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 1024m
+    nginx.ingress.kubernetes.io/proxy-send-timeout: '600'
+    nginx.ingress.kubernetes.io/proxy-read-timeout: '600'
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite /api/baoxian_wechat/(.*)  /$1 break;
+
+spec:
+  rules:
+  - host: demo.baoxian.perfectcode.tech
+    http:
+      paths:
+      - path: /api/baoxian_wechat
+        backend:
+          serviceName: baoxian-wechat-service
+          servicePort: 80
+  - host: test.baoxian.perfectcode.tech
+    http:
+      paths:
+      - path: /api/baoxian_wechat
+        backend:
+          serviceName: baoxian-wechat-service
+          servicePort: 80

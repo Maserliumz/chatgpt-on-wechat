@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: baoxian-wechat-bot
+  namespace: baoxian
+spec:
+  selector:
+    matchLabels:
+      app: baoxian-wechat-bot
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: baoxian-wechat-bot
+    spec:
+      initContainers:
+      - name: baoxian-tag-src
+        image: registry.phbs-ai.perfectcode.tech/baoxian/baoxian-wechat-bot:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /link-src
+          name: py-src
+      containers:
+      - name: baoxian-tag-run
+        image: registry.phbs-ai.perfectcode.tech/baoxian/baoxian-wechat-bot-run:latest
+        command: ["/bin/sh", "-c", "/home/baoxian-server/docker/shell/start_server.sh"]
+        workingDir: /home/baoxian-server
+        imagePullPolicy: Always
+        volumeMounts:
+        - mountPath: /home/baoxian-server
+          name: py-src
+        - mountPath: /home/app
+          name: app
+        ports:
+        - containerPort: 9898
+      nodeName: phbs-gpu2
+      imagePullSecrets:
+        - name: registry-baoxian
+      volumes:
+        - name: py-src
+          emptyDir: {}
+        - name: app
+          persistentVolumeClaim:
+            claimName: pvc-share
