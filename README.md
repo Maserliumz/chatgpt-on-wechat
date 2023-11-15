@@ -276,3 +276,11 @@ FAQs： <https://github.com/zhayujie/chatgpt-on-wechat/wiki/FAQs>
 ## 联系
 
 欢迎提交PR、Issues，以及Star支持一下。程序运行遇到问题可以查看 [常见问题列表](https://github.com/zhayujie/chatgpt-on-wechat/wiki/FAQs) ，其次前往 [Issues](https://github.com/zhayujie/chatgpt-on-wechat/issues) 中搜索。参与更多讨论可加入技术交流群。
+
+## 打包
+docker build -t baoxian-wechat-bot  .
+docker tag baoxian-wechat-bot registry.phbs-ai.perfectcode.tech/baoxian/baoxian-wechat-bot:latest
+docker push registry.phbs-ai.perfectcode.tech/baoxian/baoxian-wechat-bot:latest
+
+# 接口测试
+demo.baoxian.perfectcode.tech/api/baoxian_wechat/wxcomapp

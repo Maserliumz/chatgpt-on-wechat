@@ -153,7 +153,7 @@ class Query:
         except (InvalidSignatureException, InvalidCorpIdException):
             raise web.Forbidden()
         msg = parse_message(message)
-        logger.debug("[wechatcom] receive message: {}, msg= {}".format(message, msg))
+        logger.info("[wechatcom] receive message: {}, msg= {}".format(message, msg))
         if msg.type == "event":
             if msg.event == "subscribe":
                 reply_content = subscribe_msg()
@@ -165,7 +165,7 @@ class Query:
             try:
                 wechatcom_msg = WechatComAppMessage(msg, client=channel.client)
             except NotImplementedError as e:
-                logger.debug("[wechatcom] " + str(e))
+                logger.info("[wechatcom] " + str(e))
                 return "success"
             context = channel._compose_context(
                 wechatcom_msg.ctype,
